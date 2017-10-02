@@ -20,11 +20,17 @@ class UsersController < ApplicationController
   end
   
   def update
-    render json: User.find(params[:id].update!(user_params))
+    user = User.find(params[:id])
+    if user.update(user_params)
+      render json: { status: 200, msg: 'Details have been updated.' }
+    end
   end
   
   def destroy
-    render json: User.find(params[:id]).destroy!
+    user = User.find(params[:id])
+    if user.destroy
+      render json: { status: 200, msg: 'User has been deleted.' }
+    end
   end
   
   private
