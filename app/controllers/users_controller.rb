@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, only: [:index, :update, :current]
-  before_action :authorize,         only: [:update]
+  before_action :authenticate_user,  only: [:index, :update, :current]
+  before_action :authorize,          only: [:update]
+  before_action :authorize_as_admin, only: [:destroy]
   
   def index
     render json: {status: 200, msg: 'Logged-in'}
@@ -12,11 +13,18 @@ class UsersController < ApplicationController
   end
   
   def create
-    render json: User.new(user_params)
+    user = User.new(user_params)
+    if user.save
+      render json: {status: 200, msg: 'User was created.'}
+    end
   end
   
   def update
     render json: User.find(params[:id].update!(user_params))
+  end
+  
+  def destroy
+    render json: User.find(params[:id]).destroy!
   end
   
   private
