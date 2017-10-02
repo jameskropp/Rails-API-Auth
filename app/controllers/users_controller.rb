@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.update(user_params)
-      render json: { status: 200, msg: 'Details have been updated.' }
+      render json: { status: 200, msg: 'User details have been updated.' }
     end
   end
   
